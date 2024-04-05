@@ -67,6 +67,8 @@ export const projectsData = [
       "Actuellement, je me consacre à mon dernier projet : la création d'un portfolio web destiné à présenter mes réalisations artisanales en papier mâché.",
     tags: ["React", "Next.js", "Prismic.io", "Tailwind", "Gsap", "Astro"],
     imageUrl: corpcommentImg,
+    projectLink: "https://www.marcosuarezsculpture.art/",
+    codeSource: "https://github.com/markyuna/portfolio-prismic-papermache",
   },
   {
     title: "AmazonCone-Expo",
@@ -74,6 +76,8 @@ export const projectsData = [
       "Ce projet est construit en utilisant Expo, React Native et AWS Amplify pour fournir une expérience d'achat fluide et réactive.",
     tags: ["React", "TypeScript", "AWS-Amplify", "Cloudinary"],
     imageUrl: rmtdevImg,
+    projectLink: "https://expo.dev/@markyuna/AmazonClone",
+    codeSource: "https://github.com/markyuna/AmazonClone-expo", 
   },
   {
     title: "OnlyFansClone-Expo",
@@ -81,6 +85,8 @@ export const projectsData = [
       "Découvrez mon dernier projet, OnlyFans Expo, une application de pointe qui exploite la puissance d’Amplify pour les fonctionnalités d’authentification et de backend.",
     tags: ["React", "Expo-router", "AWS-Amplify", "Cloudinary"],
     imageUrl: wordanalyticsImg,
+    projectLink: "https:/",
+    codeSource: "https://github.com/markyuna/OnlyFansClone",
   },
 ] as const;
 

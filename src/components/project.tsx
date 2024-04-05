@@ -1,5 +1,6 @@
 "use client";
-
+import { BsArrowRight } from "react-icons/bs";
+import { FaGithubSquare } from "react-icons/fa";
 import { useRef } from "react";
 import { projectsData } from "@/lib/data";
 import Image from "next/image";
@@ -12,6 +13,8 @@ export default function Project({
   description,
   tags,
   imageUrl,
+  projectLink,
+  codeSource,
 }: ProjectProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -30,8 +33,10 @@ export default function Project({
       }}
       className="group mb-3 sm:mb-8 last:mb-0"
     >
-      <section className="bg-gray-100 max-w-[42rem] border border-black/5 rounded-lg overflow-hidden sm:pr-8 relative sm:h-[20rem] hover:bg-gray-200 transition sm:group-even:pl-8 dark:text-white dark:bg-white/10 dark:hover:bg-white/20">
-        <div className="pt-4 pb-7 px-5 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[50%] flex flex-col h-full sm:group-even:ml-[18rem]">
+     
+
+      <section className="mb-3 bg-gray-100 max-w-[52rem] border border-black/5 rounded-lg overflow-hidden sm:pr-8 relative sm:h-[20rem] hover:bg-gray-200 transition sm:group-even:pl-8 dark:text-white dark:bg-white/10 dark:hover:bg-white/20">
+        <div className="pt-4 pb-7 px-3 sm:pl-10 sm:pr-2 sm:pt-10 sm:max-w-[50%] flex flex-col h-full sm:group-even:ml-[18rem]">
           <h3 className="text-2xl font-semibold">{title}</h3>
           <p className="mt-2 leading-relaxed text-gray-700 dark:text-white/70">
             {description}
@@ -39,13 +44,32 @@ export default function Project({
           <ul className="flex flex-wrap mt-4 gap-2 sm:mt-auto">
             {tags.map((tag, index) => (
               <li
-                className="bg-black/[0.7] px-3 py-1 text-[0.7rem] uppercase tracking-wider text-white rounded-full dark:text-white/70"
-                key={index}
+              className="bg-black/[0.7] px-3 py-1 text-[0.7rem] uppercase tracking-wider text-white rounded-full dark:text-white/70"
+              key={index}
               >
                 {tag}
               </li>
             ))}
           </ul>
+          <ul className="flex sm:flex-row mt-10 gap-4  sm:mt-auto">
+        <a
+          href={projectLink}
+          target="_blank" 
+          className="group flex-1 bg-gray-900 text-white px-4 py-2 flex items-center justify-center gap-2 rounded-full outline-none text-sm focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105 transition"
+        >
+          Voir le projet
+          <BsArrowRight className="opacity-70 group-hover:translate-x-1 transition" />
+        </a>
+
+        <a 
+          href={codeSource} 
+          target="_blank" 
+          className="group flex-1 bg-gray-900 text-white px-4 py-2 flex items-center justify-center gap-2 rounded-full outline-none text-sm focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105 transition"
+        >
+          Code Source
+          <FaGithubSquare/>
+        </a>
+      </ul>
         </div>
 
         <Image
@@ -58,14 +82,17 @@ export default function Project({
         group-hover:-translate-x-3
         group-hover:translate-y-3
         group-hover:-rotate-2
-
+        
         group-even:group-hover:translate-x-3
         group-even:group-hover:translate-y-3
         group-even:group-hover:rotate-2
-
+        
         group-even:right-[initial] group-even:-left-40"
         />
       </section>
+      
+
+
     </motion.div>
   );
 }
