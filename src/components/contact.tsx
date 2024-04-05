@@ -29,14 +29,14 @@ export default function Contact() {
         once: true,
       }}
     >
-      <SectionHeading>Contact me</SectionHeading>
+      <SectionHeading>Contactez moi</SectionHeading>
 
       <p className="text-gray-700 -mt-6 dark:text-white/80">
-        Please contact me directly at{" "}
-        <a className="underline" href="mailto:example@gmail.com">
-          example@gmail.com
+      Merci de me contacter directement au{" "}
+        <a className="underline" href="mailto:marcossuarezr88@gmail.com">
+          marcossuarezr88@gmail.com
         </a>{" "}
-        or through this form.
+        ou via ce formulaire.
       </p>
 
       <form

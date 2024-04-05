@@ -2,22 +2,22 @@ import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
-import corpcommentImg from "@/public/corpcomment.png";
-import rmtdevImg from "@/public/rmtdev.png";
-import wordanalyticsImg from "@/public/wordanalytics.png";
+import corpcommentImg from "@/public/papermache.png";
+import rmtdevImg from "@/public/amazon_clone.png";
+import wordanalyticsImg from "@/public/only_fans.png";
 
 export const links = [
   {
-    name: "Home",
-    hash: "#home",
+    name: "Accueil",
+    hash: "#accueil",
   },
   {
-    name: "About",
-    hash: "#about",
+    name: "Profil",
+    hash: "#profil",
   },
   {
-    name: "Projects",
-    hash: "#projects",
+    name: "Projets",
+    hash: "#projets",
   },
   {
     name: "Skills",
@@ -62,24 +62,24 @@ export const experiencesData = [
 
 export const projectsData = [
   {
-    title: "CorpComment",
+    title: "Paper Mache Sculptures",
     description:
-      "I worked as a full-stack developer on this startup project for 2 years. Users can give public feedback to companies.",
-    tags: ["React", "Next.js", "MongoDB", "Tailwind", "Prisma"],
+      "Actuellement, je me consacre à mon dernier projet : la création d'un portfolio web destiné à présenter mes réalisations artisanales en papier mâché.",
+    tags: ["React", "Next.js", "Prismic.io", "Tailwind", "Gsap", "Astro"],
     imageUrl: corpcommentImg,
   },
   {
-    title: "rmtDev",
+    title: "AmazonCone-Expo",
     description:
-      "Job board for remote developer jobs. I was the front-end developer. It has features like filtering, sorting and pagination.",
-    tags: ["React", "TypeScript", "Next.js", "Tailwind", "Redux"],
+      "Ce projet est construit en utilisant Expo, React Native et AWS Amplify pour fournir une expérience d'achat fluide et réactive.",
+    tags: ["React", "TypeScript", "AWS-Amplify", "Cloudinary"],
     imageUrl: rmtdevImg,
   },
   {
-    title: "Word Analytics",
+    title: "OnlyFansClone-Expo",
     description:
-      "A public web app for quick analytics on text. It shows word count, character count and social media post limits.",
-    tags: ["React", "Next.js", "SQL", "Tailwind", "Framer"],
+      "Découvrez mon dernier projet, OnlyFans Expo, une application de pointe qui exploite la puissance d’Amplify pour les fonctionnalités d’authentification et de backend.",
+    tags: ["React", "Expo-router", "AWS-Amplify", "Cloudinary"],
     imageUrl: wordanalyticsImg,
   },
 ] as const;
@@ -92,16 +92,14 @@ export const skillsData = [
   "React",
   "Next.js",
   "Node.js",
+  "Expo",
   "Git",
   "Tailwind",
   "Prisma",
-  "MongoDB",
-  "Redux",
+  "Prismic.io",
+  "Astro",
+  "GSAP",
   "GraphQL",
-  "Apollo",
-  "Express",
   "PostgreSQL",
-  "Python",
-  "Django",
   "Framer Motion",
 ] as const;

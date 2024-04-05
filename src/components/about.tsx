@@ -5,8 +5,8 @@ import SectionHeading from "./section-heading";
 import { motion } from "framer-motion";
 import { useSectionInView } from "@/lib/hooks";
 
-export default function About() {
-  const { ref } = useSectionInView("About");
+export default function Profil() {
+  const { ref } = useSectionInView("Profil");
 
   return (
     <motion.section
@@ -15,34 +15,27 @@ export default function About() {
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.175 }}
-      id="about"
+      id="Profil"
     >
-      <SectionHeading>About me</SectionHeading>
+      <SectionHeading>A PROPOS DE MOI</SectionHeading>
       <p className="mb-3">
-        After graduating with a degree in{" "}
-        <span className="font-medium">Accounting</span>, I decided to pursue my
-        passion for programming. I enrolled in a coding bootcamp and learned{" "}
-        <span className="font-medium">full-stack web development</span>.{" "}
-        <span className="italic">My favorite part of programming</span> is the
-        problem-solving aspect. I <span className="underline">love</span> the
-        feeling of finally figuring out a solution to a problem. My core stack
-        is{" "}
-        <span className="font-medium">
-          React, Next.js, Node.js, and MongoDB
-        </span>
-        . I am also familiar with TypeScript and Prisma. I am always looking to
-        learn new technologies. I am currently looking for a{" "}
-        <span className="font-medium">full-time position</span> as a software
-        developer.
+        Après mon arrivée en{" "}
+        <span className="font-medium">France</span>,  j'ai choisi de cultiver 
+        ma passion pour la programmation. Je me suis engagé dans un bootcamp 
+        de codage chez Le Wagon, où j'ai acquis des compétences en {" "}
+        <span className="font-medium">développement Web full-stack</span>.{" "}
+        Ce qui me passionne le plus dans la programmation, c'est la résolution de problèmes. 
+        J'apprécie le sentiment de satisfaction lorsque je parviens enfin à trouver une solution
+        à un défi. Mes technologies de prédilection incluent React, Next.js, Node.js et AWS-Amplify. 
+        De plus, je maîtrise TypeScript et Prisma. Je suis toujours avide de découvrir de nouvelles 
+        technologies et je suis actuellement à la recherche d'un poste à temps plein en tant que 
+        développeur web junior.
+
       </p>
 
       <p>
-        <span className="italic">When I'm not coding</span>, I enjoy playing
-        video games, watching movies, and playing with my dog. I also enjoy{" "}
-        <span className="font-medium">learning new things</span>. I am currently
-        learning about{" "}
-        <span className="font-medium">history and philosophy</span>. I'm also
-        learning how to play the guitar.
+        <span className="italic">En dehors du codage</span>, mes centres d'intérêt incluent les jeux vidéo, 
+        le cinéma, et mon hobby préféré est la création de sculptures en papier mâché pour stimuler ma créativité.
       </p>
     </motion.section>
   );
