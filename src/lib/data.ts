@@ -2,9 +2,10 @@ import React from "react";
 import { CgWorkAlt } from "react-icons/cg";
 import { FaReact } from "react-icons/fa";
 import { LuGraduationCap } from "react-icons/lu";
-import corpcommentImg from "@/public/papermache.png";
-import rmtdevImg from "@/public/amazon_clone.png";
-import wordanalyticsImg from "@/public/only_fans.png";
+import papermacheImg from "@/public/papermache.png";
+import amazonImg from "@/public/amazon_clone.png";
+import onlyfansImg from "@/public/only_fans.png";
+import airbnbImg from "@/public/airbnb.png";
 
 export const links = [
   {
@@ -35,12 +36,12 @@ export const links = [
 
 export const experiencesData = [
   {
-    title: "Graduated bootcamp",
-    location: "Miami, FL",
+    title: "LE WAGON BOOTCAMP",
+    location: "Paris, France",
     description:
-      "I graduated after 6 months of studying. I immediately found a job as a front-end developer.",
+      "CERTIFICATION DE CONCEPTEUR - DÉVELOPPEUR D'APPLICATIONS WEB",
     icon: React.createElement(LuGraduationCap),
-    date: "2019",
+    date: "2022 - 2023",
   },
   {
     title: "Front-End Developer",
@@ -66,7 +67,7 @@ export const projectsData = [
     description:
       "Actuellement, je me consacre à mon dernier projet : la création d'un portfolio web destiné à présenter mes réalisations artisanales en papier mâché.",
     tags: ["React", "Next.js", "Prismic.io", "Tailwind", "Gsap", "Astro"],
-    imageUrl: corpcommentImg,
+    imageUrl: papermacheImg,
     projectLink: "https://www.marcosuarezsculpture.art/",
     codeSource: "https://github.com/markyuna/portfolio-prismic-papermache",
   },
@@ -75,7 +76,7 @@ export const projectsData = [
     description:
       "Ce projet est construit en utilisant Expo, React Native et AWS Amplify pour fournir une expérience d'achat fluide et réactive.",
     tags: ["React", "TypeScript", "AWS-Amplify", "Cloudinary"],
-    imageUrl: rmtdevImg,
+    imageUrl: amazonImg,
     projectLink: "https://expo.dev/@markyuna/AmazonClone",
     codeSource: "https://github.com/markyuna/AmazonClone-expo", 
   },
@@ -84,9 +85,18 @@ export const projectsData = [
     description:
       "Découvrez mon dernier projet, OnlyFans Expo, une application de pointe qui exploite la puissance d’Amplify pour les fonctionnalités d’authentification et de backend.",
     tags: ["React", "Expo-router", "AWS-Amplify", "Cloudinary"],
-    imageUrl: wordanalyticsImg,
+    imageUrl: onlyfansImg,
     projectLink: "https:/",
     codeSource: "https://github.com/markyuna/OnlyFansClone",
+  },
+  {
+    title: "AirbnbClone-Expo",
+    description:
+      "Elle intègre des technologies telles que AWS Amplify pour l'authentification des utilisateurs et GraphQL pour la gestion des données.",
+    tags: ["React Native", "TypeScript", "Expo", "AWS-Amplify", "Cloudinary"],
+    imageUrl: airbnbImg,
+    projectLink: "https:/",
+    codeSource: "https://github.com/markyuna/AirbnbClone-Expo",
   },
 ] as const;
 
