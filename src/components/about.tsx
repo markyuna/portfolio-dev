@@ -35,7 +35,7 @@ export default function Profil() {
 
       <p>
         <span className="italic">En dehors du codage</span>, mes centres d'intérêt incluent les jeux vidéo, 
-        le cinéma, et mon hobby préféré est la création de sculptures en papier mâché pour stimuler ma créativité.
+        le cinéma, et mon hobby préféré est la création de <a href="https://www.marcosuarezsculpture.art/" className="font-bold from-stone-800">sculptures</a> en papier mâché pour stimuler ma créativité.
       </p>
     </motion.section>
   );
