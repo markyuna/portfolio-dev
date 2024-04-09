@@ -36,6 +36,22 @@ export const links = [
 
 export const experiencesData = [
   {
+    title: "PROFESSEUR WEB DESIGN",
+    location: "ECOLE D'INFORMATIQUE / Gervacio Cabrera - CUBA",
+    description:
+      "Enseignement des interfaces utilisateurs en HTML et CSS. Expérimentation de différentes idées avant la phase de maquettage (UI). Conception collaborative de projets web avec les élèves.",
+    icon: React.createElement(CgWorkAlt),
+    date: "2006 - 2007",
+  },
+  {
+    title: "TECHNICIEN INFORMATIQUE SYSTÈME & RÉSEAUX (BAC+2)",
+    location: "Centre de Formation GEFI - Créteil ",
+    description:
+      "Installation, configuration et dépannage de périphériques. Aide au paramétrage d’applications",
+    icon: React.createElement(LuGraduationCap),
+    date: "2021 - 2022",
+  },
+  {
     title: "LE WAGON BOOTCAMP",
     location: "Paris, France",
     description:
@@ -44,20 +60,12 @@ export const experiencesData = [
     date: "2022 - 2023",
   },
   {
-    title: "Front-End Developer",
-    location: "Orlando, FL",
+    title: "CDD - DEVELOPPEUR WEB",
+    location: "FRANCE COURTIER / LILLE",
     description:
-      "I worked as a front-end developer for 2 years in 1 job and 1 year in another job. I also upskilled to the full stack.",
-    icon: React.createElement(CgWorkAlt),
-    date: "2019 - 2021",
-  },
-  {
-    title: "Full-Stack Developer",
-    location: "Houston, TX",
-    description:
-      "I'm now a full-stack developer working as a freelancer. My stack includes React, Next.js, TypeScript, Tailwind, Prisma and MongoDB. I'm open to full-time opportunities.",
+    "Développement d'interfaces web, front et back.",
     icon: React.createElement(FaReact),
-    date: "2021 - present",
+    date: "AVRIL 2023 - SEPT 2023",
   },
 ] as const;
 
