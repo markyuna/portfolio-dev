@@ -39,7 +39,7 @@ export const experiencesData = [
     title: "PROFESSEUR WEB DESIGN",
     location: "ECOLE D'INFORMATIQUE / Gervacio Cabrera - CUBA",
     description:
-      "Enseignement des interfaces utilisateurs en HTML et CSS. Expérimentation de différentes idées avant la phase de maquettage (UI). Conception collaborative de projets web avec les élèves.",
+      "Enseignement des interfaces utilisateurs en HTML et CSS.",
     icon: React.createElement(CgWorkAlt),
     date: "2006 - 2007",
   },
@@ -47,7 +47,7 @@ export const experiencesData = [
     title: "TECHNICIEN INFORMATIQUE SYSTÈME & RÉSEAUX (BAC+2)",
     location: "Centre de Formation GEFI - Créteil ",
     description:
-      "Installation, configuration et dépannage de périphériques. Aide au paramétrage d’applications",
+      "Installation, configuration et dépannage de périphériques.",
     icon: React.createElement(LuGraduationCap),
     date: "2021 - 2022",
   },
