@@ -16,16 +16,19 @@ export const metadata = {
 
 import Hotjar from '@hotjar/browser';
 
-const siteId = 3432568;
+const siteId = 4940491;
 const hotjarVersion = 6;
 
 Hotjar.init(siteId, hotjarVersion);
+
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en" className="!scroll-smooth">
     <body
