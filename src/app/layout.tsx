@@ -14,6 +14,12 @@ export const metadata = {
   description: "Marcos is a full-stack developer with 2 years of experience.",
 };
 
+import Hotjar from '@hotjar/browser';
+
+const siteId = 3432568;
+const hotjarVersion = 6;
+
+Hotjar.init(siteId, hotjarVersion);
 
 export default function RootLayout({
   children,
