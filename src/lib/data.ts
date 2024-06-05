@@ -36,36 +36,36 @@ export const links = [
 
 export const experiencesData = [
   {
-    title: "PROFESSEUR WEB DESIGN",
-    location: "ECOLE D'INFORMATIQUE / Gervacio Cabrera - CUBA",
-    description:
-      "Enseignement des interfaces utilisateurs en HTML et CSS.",
-    icon: React.createElement(CgWorkAlt),
-    date: "2006 - 2007",
-  },
-  {
-    title: "TECHNICIEN INFORMATIQUE SYSTÈME & RÉSEAUX (BAC+2)",
-    location: "Centre de Formation GEFI - Créteil ",
-    description:
-      "Installation, configuration et dépannage de périphériques.",
-    icon: React.createElement(LuGraduationCap),
-    date: "2021 - 2022",
-  },
-  {
-    title: "LE WAGON BOOTCAMP",
-    location: "Paris, France",
-    description:
-      "CERTIFICATION DE CONCEPTEUR - DÉVELOPPEUR D'APPLICATIONS WEB",
-    icon: React.createElement(LuGraduationCap),
-    date: "2022 - 2023",
-  },
-  {
     title: "CDD - DEVELOPPEUR WEB",
     location: "FRANCE COURTIER / LILLE",
     description:
     "Développement d'interfaces web, front et back.",
     icon: React.createElement(FaReact),
     date: "AVRIL 2023 - SEPT 2023",
+  },
+  {
+    title: "LE WAGON BOOTCAMP",
+    location: "Paris, France",
+    description:
+    "CERTIFICATION DE CONCEPTEUR - DÉVELOPPEUR D'APPLICATIONS WEB",
+    icon: React.createElement(LuGraduationCap),
+    date: "2022 - 2023",
+  },
+  {
+    title: "TECHNICIEN INFORMATIQUE SYSTÈME & RÉSEAUX (BAC+2)",
+    location: "Centre de Formation GEFI - Créteil ",
+    description:
+    "Installation, configuration et dépannage de périphériques.",
+    icon: React.createElement(LuGraduationCap),
+    date: "2021 - 2022",
+  },
+  {
+    title: "PROFESSEUR WEB DESIGN",
+    location: "ECOLE D'INFORMATIQUE / Gervacio Cabrera - CUBA",
+    description:
+    "Enseignement des interfaces utilisateurs en HTML et CSS.",
+    icon: React.createElement(CgWorkAlt),
+    date: "2006 - 2007",
   },
 ] as const;
 
