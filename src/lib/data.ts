@@ -36,12 +36,12 @@ export const links = [
 
 export const experiencesData = [
   {
-    title: "CDD - DEVELOPPEUR WEB",
-    location: "FRANCE COURTIER / LILLE",
+    title: "CDD - RESPONSABLE CASH ZONE",
+    location: "SODEXO LIVE / JEUX OLYMPIQUES DE PARIS 2024",
     description:
-    "Développement d'interfaces web, front et back.",
+    "Gestion des flux financiers et sécurisation des fonds.",
     icon: React.createElement(FaReact),
-    date: "AVRIL 2023 - SEPT 2023",
+    date: "JUILLET 2024 - SEPT 2024",
   },
   {
     title: "LE WAGON BOOTCAMP",
@@ -76,7 +76,7 @@ export const projectsData = [
       "Actuellement, je me consacre à mon dernier projet : la création d'un portfolio web destiné à présenter mes réalisations artisanales en papier mâché.",
     tags: ["React", "Next.js", "Prismic.io", "Tailwind", "Gsap", "Astro"],
     imageUrl: papermacheImg,
-    projectLink: "https://www.marcosuarezsculpture.art/",
+    projectLink: "https://www.marcosuarezsculpture.online/",
     codeSource: "https://github.com/markyuna/portfolio-prismic-papermache",
   },
   {
