@@ -23,6 +23,17 @@ const projects = [
     metrics: ["Lead generation flow", "Premium UI system", "Admin-ready backend"],
   },
   {
+    title: "DND Conseil",
+    subtitle: "Renovation consulting platform",
+    category: "Construction consulting website",
+    description:
+      "A premium website for a building renovation consulting service, designed with elegant visuals, conversion-focused sections and a structured quote request journey.",
+    image: "/images/projects/dnd-conseil.png",
+    tags: ["Next.js", "Tailwind", "Framer Motion", "Supabase"],
+    url: "https://dnd-conseils.vercel.app/",
+    metrics: ["Quote request flow", "Premium service positioning", "Admin lead management"],
+  },
+  {
     title: "Marcos Papermache",
     subtitle: "AI-powered art experience",
     category: "Art & e-commerce experience",
@@ -139,7 +150,7 @@ function ProjectVisual({
         <div className="relative overflow-hidden rounded-[1.8rem] border border-indigo-200/70 bg-white/65 p-2 shadow-2xl shadow-indigo-950/15 backdrop-blur-xl">
           <Image
             src={project.image}
-            alt={project.title}
+            alt={`${project.title} website preview`}
             width={1200}
             height={800}
             className="h-auto w-full rounded-[1.35rem] object-cover transition duration-700 group-hover:scale-[1.035]"
@@ -175,7 +186,7 @@ function ProjectContent({
           </p>
 
           <span className="font-mono text-sm text-indigo-300">
-            0{index + 1}
+            {String(index + 1).padStart(2, "0")}
           </span>
         </div>
 
