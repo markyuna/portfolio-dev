@@ -46,8 +46,8 @@ export default function ProjectsSection() {
           </p>
         </motion.div>
 
-        {/* Compact 2-column grid */}
-        <div className="grid gap-6 md:grid-cols-2">
+        {/* Compact grid */}
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
             <motion.article
               key={project.title}
@@ -56,19 +56,19 @@ export default function ProjectsSection() {
               viewport={{ once: true, margin: "-80px" }}
               transition={{
                 duration: 0.85,
-                delay: index * 0.06,
+                delay: (index % 3) * 0.06,
                 ease: [0.22, 1, 0.36, 1],
               }}
               className="group relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-white/[0.03] transition duration-500 hover:-translate-y-1 hover:border-violet-500/25 hover:bg-white/[0.06]"
             >
               {/* Image */}
-              <div className="relative aspect-[16/9] overflow-hidden">
+              <div className="relative aspect-[16/10] overflow-hidden">
                 <Image
                   src={project.image}
                   alt={`${project.title} preview`}
                   fill
                   className="object-cover transition duration-700 group-hover:scale-[1.04]"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-transparent" />
 
@@ -84,38 +84,24 @@ export default function ProjectsSection() {
               </div>
 
               {/* Content */}
-              <div className="p-6">
-                <div className="mb-4 flex items-start justify-between gap-4">
-                  <div>
-                    <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-violet-400">
-                      {project.category[locale]}
-                    </p>
-                    <h3 className="text-2xl font-semibold tracking-[-0.05em] text-white">
-                      {project.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-white/45">
-                      {project.subtitle[locale]}
-                    </p>
-                  </div>
+              <div className="p-5">
+                <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-violet-400">
+                  {project.category[locale]}
+                </p>
+                <h3 className="text-lg font-semibold tracking-[-0.04em] text-white">
+                  {project.title}
+                </h3>
+                <p className="mt-1 text-sm text-white/45">
+                  {project.subtitle[locale]}
+                </p>
 
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-1 flex shrink-0 items-center gap-1.5 rounded-full bg-white/8 px-4 py-2 text-xs font-semibold text-white/70 transition duration-300 hover:bg-violet-600 hover:text-white"
-                  >
-                    {p.cta}
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
-                </div>
-
-                <p className="text-sm leading-7 text-white/55">
+                <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/55">
                   {project.description[locale]}
                 </p>
 
                 {/* Tags */}
                 <div className="mt-4 flex flex-wrap gap-1.5">
-                  {project.tags.map((tag) => (
+                  {project.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
                       className="rounded-full border border-white/[0.08] bg-white/5 px-2.5 py-1 text-xs text-white/45"
@@ -125,18 +111,15 @@ export default function ProjectsSection() {
                   ))}
                 </div>
 
-                {/* Metrics */}
-                <ul className="mt-5 grid gap-2 border-t border-white/[0.08] pt-5">
-                  {project.metrics[locale].map((metric) => (
-                    <li
-                      key={metric}
-                      className="flex items-center gap-2.5 text-sm text-white/50"
-                    >
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-violet-500 shadow-[0_0_10px_rgba(124,58,237,0.6)]" />
-                      {metric}
-                    </li>
-                  ))}
-                </ul>
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-white/80 transition duration-300 group-hover:text-violet-400"
+                >
+                  {p.cta}
+                  <ArrowUpRight className="h-3.5 w-3.5 transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
               </div>
             </motion.article>
           ))}

@@ -57,7 +57,7 @@ export default function Navbar() {
             "mx-auto flex max-w-7xl items-center justify-between overflow-hidden rounded-full border px-4 py-2 text-white backdrop-blur-2xl transition-all duration-500 md:px-5",
             scrolled
               ? "border-white/10 bg-[#08080c]/75 shadow-[0_24px_90px_rgba(0,0,0,0.45)]"
-              : "border-white/10 bg-white/[0.055] shadow-[0_18px_70px_rgba(0,0,0,0.28)]",
+              : "border-white/10 bg-[#08080c]/40 shadow-[0_18px_70px_rgba(0,0,0,0.28)]",
           ].join(" ")}
         >
           <Link href="/" className="group relative flex shrink-0 items-center">
