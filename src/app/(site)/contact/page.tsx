@@ -4,10 +4,10 @@ import {
     MapPin,
     MessageCircle,
     Phone,
-    Send,
     Sparkles,
   } from "lucide-react";
-  
+  import ContactForm from "@/components/forms/ContactForm";
+
   export const metadata = {
     title: "Contact | Marcos Suarez",
     description:
@@ -33,14 +33,6 @@ import {
       value: "Paris, France",
       href: null,
     },
-  ];
-  
-  const projectTypes = [
-    "Premium website",
-    "Portfolio",
-    "Landing page",
-    "E-commerce",
-    "Web app",
   ];
   
   export default function ContactPage() {
@@ -125,99 +117,7 @@ import {
               </div>
             </aside>
   
-            <form className="rounded-[2.5rem] border border-indigo-200/70 bg-white/55 p-6 shadow-2xl shadow-indigo-950/10 backdrop-blur-xl md:p-8">
-              <div className="mb-8 flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100/70 text-violet-600">
-                  <Sparkles className="h-5 w-5" />
-                </div>
-  
-                <div>
-                  <p className="text-sm font-semibold text-zinc-950">
-                    Project request
-                  </p>
-                  <p className="text-sm text-zinc-500">
-                    Share a few details and I’ll get back to you.
-                  </p>
-                </div>
-              </div>
-  
-              <div className="grid gap-5 md:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm text-zinc-600">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Your name"
-                    className="w-full rounded-2xl border border-indigo-200/70 bg-white/70 px-4 py-4 text-sm text-zinc-950 outline-none transition placeholder:text-zinc-400 focus:border-violet-400 focus:bg-white"
-                  />
-                </div>
-  
-                <div>
-                  <label className="mb-2 block text-sm text-zinc-600">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="your@email.com"
-                    className="w-full rounded-2xl border border-indigo-200/70 bg-white/70 px-4 py-4 text-sm text-zinc-950 outline-none transition placeholder:text-zinc-400 focus:border-violet-400 focus:bg-white"
-                  />
-                </div>
-              </div>
-  
-              <div className="mt-5">
-                <label className="mb-3 block text-sm text-zinc-600">
-                  Project type
-                </label>
-  
-                <div className="flex flex-wrap gap-2">
-                  {projectTypes.map((type) => (
-                    <label
-                      key={type}
-                      className="cursor-pointer rounded-full border border-indigo-200/70 bg-white/60 px-4 py-2 text-sm text-zinc-600 transition hover:border-violet-400 hover:bg-white hover:text-violet-700"
-                    >
-                      <input
-                        type="radio"
-                        name="projectType"
-                        value={type}
-                        className="sr-only"
-                      />
-                      {type}
-                    </label>
-                  ))}
-                </div>
-              </div>
-  
-              <div className="mt-5">
-                <label className="mb-2 block text-sm text-zinc-600">
-                  Project
-                </label>
-                <input
-                  type="text"
-                  placeholder="Tell me briefly about your project"
-                  className="w-full rounded-2xl border border-indigo-200/70 bg-white/70 px-4 py-4 text-sm text-zinc-950 outline-none transition placeholder:text-zinc-400 focus:border-violet-400 focus:bg-white"
-                />
-              </div>
-  
-              <div className="mt-5">
-                <label className="mb-2 block text-sm text-zinc-600">
-                  Message
-                </label>
-                <textarea
-                  rows={6}
-                  placeholder="What are you building? What do you need help with?"
-                  className="w-full resize-none rounded-2xl border border-indigo-200/70 bg-white/70 px-4 py-4 text-sm text-zinc-950 outline-none transition placeholder:text-zinc-400 focus:border-violet-400 focus:bg-white"
-                />
-              </div>
-  
-              <button
-                type="submit"
-                className="group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-zinc-950 px-6 py-4 text-sm font-semibold text-white transition duration-300 hover:scale-[1.01] hover:bg-violet-600"
-              >
-                Send message
-                <Send className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </button>
-            </form>
+            <ContactForm />
           </div>
         </section>
       </main>
