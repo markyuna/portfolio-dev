@@ -6,44 +6,41 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X } from "lucide-react";
-
-const navLinks = [
-  { label: "Projects", href: "/projects" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
-];
+import { useLanguage } from "@/lib/language-context";
+import { Locale } from "@/lib/translations";
 
 export default function Navbar() {
   const pathname = usePathname();
   const lastYRef = useRef(0);
+  const { locale, setLocale, t } = useLanguage();
 
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  const navLinks = [
+    { label: t.nav.projects, href: "/projects" },
+    { label: t.nav.about, href: "/about" },
+    { label: t.nav.contact, href: "/contact" },
+  ];
+
   useEffect(() => {
     lastYRef.current = window.scrollY;
-
     const onScroll = () => {
       window.requestAnimationFrame(() => {
         const currentY = window.scrollY;
         const scrollingDown = currentY > lastYRef.current;
-
         setScrolled(currentY > 20);
-
         if (scrollingDown && currentY > 110) {
           setHidden(true);
           setOpen(false);
         } else {
           setHidden(false);
         }
-
         lastYRef.current = currentY;
       });
     };
-
     window.addEventListener("scroll", onScroll, { passive: true });
-
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -78,7 +75,6 @@ export default function Navbar() {
                 className="object-contain brightness-110 contrast-125 drop-shadow-[0_0_18px_rgba(124,58,237,0.35)] transition duration-500 group-hover:brightness-125"
                 priority
               />
-
               <span className="pointer-events-none absolute inset-y-0 -left-12 w-10 rotate-12 bg-white/45 blur-md transition-all duration-700 group-hover:left-[120%]" />
             </motion.div>
           </Link>
@@ -86,46 +82,57 @@ export default function Navbar() {
           <div className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/25 p-1 shadow-inner shadow-white/5 md:flex">
             {navLinks.map((link) => {
               const active = pathname === link.href;
-
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={[
                     "relative rounded-full px-4 py-2 text-sm font-medium transition duration-300",
-                    active
-                      ? "text-white"
-                      : "text-white/60 hover:text-white",
+                    active ? "text-white" : "text-white/60 hover:text-white",
                   ].join(" ")}
                 >
                   {active && (
                     <motion.span
                       layoutId="navbar-active-pill"
                       className="absolute inset-0 rounded-full bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"
-                      transition={{
-                        type: "spring",
-                        stiffness: 420,
-                        damping: 34,
-                      }}
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
                     />
                   )}
-
                   <span className="relative z-10">{link.label}</span>
                 </Link>
               );
             })}
           </div>
 
-          <Link
-            href="/contact"
-            className="group hidden items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black shadow-[0_10px_35px_rgba(255,255,255,0.16)] transition duration-300 hover:scale-[1.035] hover:bg-white/90 md:flex"
-          >
-            Start a project
-            <ArrowUpRight className="size-4 transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </Link>
+          <div className="hidden items-center gap-3 md:flex">
+            <div className="flex items-center rounded-full border border-white/10 bg-black/20 p-1">
+              {(["en", "fr"] as Locale[]).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setLocale(lang)}
+                  className={[
+                    "rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wider transition duration-300",
+                    locale === lang
+                      ? "bg-white/15 text-white shadow-inner"
+                      : "text-white/35 hover:text-white/70",
+                  ].join(" ")}
+                >
+                  {lang}
+                </button>
+              ))}
+            </div>
+
+            <Link
+              href="/contact"
+              className="group flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black shadow-[0_10px_35px_rgba(255,255,255,0.16)] transition duration-300 hover:scale-[1.035] hover:bg-white/90"
+            >
+              {t.nav.cta}
+              <ArrowUpRight className="size-4 transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
+          </div>
 
           <button
-            onClick={() => setOpen((value) => !value)}
+            onClick={() => setOpen((v) => !v)}
             className="flex size-10 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white shadow-inner shadow-white/10 transition hover:bg-white/15 md:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -156,7 +163,6 @@ export default function Navbar() {
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-40 bg-black/45 backdrop-blur-sm md:hidden"
             />
-
             <motion.div
               initial={{ opacity: 0, y: -18, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -170,7 +176,6 @@ export default function Navbar() {
               <div className="relative flex flex-col gap-2">
                 {navLinks.map((link, index) => {
                   const active = pathname === link.href;
-
                   return (
                     <motion.div
                       key={link.href}
@@ -195,12 +200,29 @@ export default function Navbar() {
                   );
                 })}
 
+                <div className="mt-1 flex items-center gap-2 px-2 py-1">
+                  {(["en", "fr"] as Locale[]).map((lang) => (
+                    <button
+                      key={lang}
+                      onClick={() => setLocale(lang)}
+                      className={[
+                        "flex-1 rounded-2xl py-3 text-sm font-bold uppercase tracking-wider transition",
+                        locale === lang
+                          ? "bg-white/15 text-white"
+                          : "text-white/40 hover:text-white/70",
+                      ].join(" ")}
+                    >
+                      {lang}
+                    </button>
+                  ))}
+                </div>
+
                 <Link
                   href="/contact"
                   onClick={() => setOpen(false)}
-                  className="mt-3 flex items-center justify-center gap-2 rounded-full bg-white px-5 py-4 text-sm font-bold text-black shadow-[0_16px_45px_rgba(255,255,255,0.16)]"
+                  className="mt-1 flex items-center justify-center gap-2 rounded-full bg-white px-5 py-4 text-sm font-bold text-black shadow-[0_16px_45px_rgba(255,255,255,0.16)]"
                 >
-                  Start a project
+                  {t.nav.cta}
                   <ArrowUpRight className="size-4" />
                 </Link>
               </div>

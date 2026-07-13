@@ -2,8 +2,12 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Code2, Palette, Sparkles } from "lucide-react";
+import { useLanguage } from "@/lib/language-context";
 
 export default function HeroSection() {
+  const { t } = useLanguage();
+  const h = t.hero;
+
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden bg-[#f4f7ff] pt-24">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(99,102,241,0.2),transparent_34%),radial-gradient(circle_at_82%_82%,rgba(168,85,247,0.16),transparent_36%)]" />
@@ -20,20 +24,19 @@ export default function HeroSection() {
         >
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-300/40 bg-white/60 px-4 py-2 text-sm font-medium text-zinc-700 shadow-2xl shadow-violet-500/10 backdrop-blur-xl">
             <Sparkles className="h-4 w-4 text-violet-500" />
-            Web Developer • Creative • AI
+            {h.badge}
           </div>
 
           <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.06em] text-zinc-950 md:text-7xl">
-            I craft{" "}
+            {h.h1a}{" "}
             <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-500 bg-clip-text text-transparent">
-              high-end
+              {h.h1highlight}
             </span>{" "}
-            digital experiences that elevate brands.
+            {h.h1b}
           </h1>
 
           <p className="mt-7 max-w-2xl text-lg leading-8 text-zinc-600 md:text-xl">
-            I build premium websites and interfaces with modern technologies,
-            refined design, smooth animations and a strong focus on results.
+            {h.description}
           </p>
 
           <div className="mt-9 flex flex-col gap-4 sm:flex-row">
@@ -41,7 +44,7 @@ export default function HeroSection() {
               href="/projects"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-zinc-950 px-7 py-4 text-sm font-semibold text-white shadow-xl shadow-indigo-950/15 transition hover:-translate-y-0.5 hover:bg-violet-600"
             >
-              View Projects
+              {h.cta}
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
             </a>
 
@@ -49,16 +52,12 @@ export default function HeroSection() {
               href="/contact"
               className="inline-flex items-center justify-center rounded-full border border-indigo-200/70 bg-white/60 px-7 py-4 text-sm font-semibold text-zinc-900 backdrop-blur transition hover:-translate-y-0.5 hover:border-violet-400 hover:bg-white"
             >
-              Contact Me
+              {h.ctaSecondary}
             </a>
           </div>
 
           <div className="mt-12 grid max-w-xl grid-cols-3 gap-3">
-            {[
-              { value: "Next.js", label: "Modern stack" },
-              { value: "UI/UX", label: "Premium design" },
-              { value: "AI", label: "Creative tools" },
-            ].map((item) => (
+            {h.tags.map((item) => (
               <div
                 key={item.label}
                 className="rounded-2xl border border-indigo-200/70 bg-white/60 p-4 shadow-sm backdrop-blur-xl"
@@ -92,15 +91,14 @@ export default function HeroSection() {
                 <div className="mb-8 flex items-center justify-between">
                   <div>
                     <p className="text-xs font-medium uppercase tracking-[0.25em] text-violet-600">
-                      Featured Project
+                      {h.featuredProject}
                     </p>
                     <h3 className="mt-2 text-2xl font-semibold text-zinc-950">
                       France Courtier
                     </h3>
                   </div>
-
                   <div className="rounded-full bg-zinc-950 px-4 py-2 text-xs font-semibold text-white">
-                    Live
+                    {h.live}
                   </div>
                 </div>
 
@@ -118,7 +116,7 @@ export default function HeroSection() {
                         Next.js
                       </p>
                       <p className="mt-1 text-xs text-zinc-500">
-                        Fast & scalable
+                        {h.fastScalable}
                       </p>
                     </div>
 
@@ -128,7 +126,7 @@ export default function HeroSection() {
                         Premium UI
                       </p>
                       <p className="mt-1 text-xs text-zinc-500">
-                        Elegant experience
+                        {h.elegantExperience}
                       </p>
                     </div>
                   </div>
@@ -136,7 +134,7 @@ export default function HeroSection() {
                   <div className="rounded-3xl border border-indigo-100 bg-white/80 p-5">
                     <div className="flex items-center justify-between">
                       <p className="text-sm font-semibold text-zinc-950">
-                        Project quality
+                        {h.projectQuality}
                       </p>
                       <p className="text-sm font-semibold text-violet-600">
                         96%
@@ -156,9 +154,9 @@ export default function HeroSection() {
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -left-8 top-16 rounded-2xl border border-indigo-200/70 bg-white/70 px-5 py-4 shadow-xl shadow-indigo-950/10 backdrop-blur-xl"
           >
-            <p className="text-xs text-zinc-500">Creative direction</p>
+            <p className="text-xs text-zinc-500">{h.creativeDirection}</p>
             <p className="mt-1 text-sm font-semibold text-zinc-950">
-              Design + Code
+              {h.designCode}
             </p>
           </motion.div>
 
@@ -167,9 +165,9 @@ export default function HeroSection() {
             transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -right-5 bottom-20 rounded-2xl border border-indigo-200/70 bg-white/70 px-5 py-4 shadow-xl shadow-indigo-950/10 backdrop-blur-xl"
           >
-            <p className="text-xs text-zinc-500">Focus</p>
+            <p className="text-xs text-zinc-500">{h.focus}</p>
             <p className="mt-1 text-sm font-semibold text-zinc-950">
-              Premium UX
+              {h.premiumUX}
             </p>
           </motion.div>
         </motion.div>
