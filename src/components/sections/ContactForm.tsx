@@ -53,14 +53,14 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="flex h-full min-h-[400px] flex-col items-center justify-center rounded-[2.5rem] border border-indigo-200/70 bg-white/55 p-10 text-center shadow-2xl shadow-indigo-950/10 backdrop-blur-xl">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full border border-emerald-200 bg-emerald-100/70 text-emerald-600">
+      <div className="flex h-full min-h-[400px] flex-col items-center justify-center rounded-[2.5rem] border border-white/10 bg-white/5 p-10 text-center backdrop-blur-xl">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
           <CheckCircle2 className="h-7 w-7" />
         </div>
-        <h3 className="mt-6 text-2xl font-semibold tracking-[-0.05em] text-zinc-950">
+        <h3 className="mt-6 text-2xl font-semibold tracking-[-0.05em] text-white">
           {f.success}
         </h3>
-        <p className="mt-3 max-w-sm text-sm leading-7 text-zinc-600">
+        <p className="mt-3 max-w-sm text-sm leading-7 text-white/55">
           {f.successSub}
         </p>
       </div>
@@ -70,43 +70,43 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-[2.5rem] border border-indigo-200/70 bg-white/55 p-6 shadow-2xl shadow-indigo-950/10 backdrop-blur-xl md:p-8"
+      className="rounded-[2.5rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl md:p-8"
     >
       <div className="mb-8 flex items-center gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-100/70 text-violet-600">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-500/10 text-violet-400">
           <Sparkles className="h-5 w-5" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-zinc-950">{f.projectRequest}</p>
-          <p className="text-sm text-zinc-500">{f.projectRequestSub}</p>
+          <p className="text-sm font-semibold text-white">{f.projectRequest}</p>
+          <p className="text-sm text-white/50">{f.projectRequestSub}</p>
         </div>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2">
         <div>
-          <label className="mb-2 block text-sm text-zinc-600">{f.name}</label>
+          <label className="mb-2 block text-sm text-white/60">{f.name}</label>
           <input
             name="name"
             type="text"
             required
             placeholder={f.namePlaceholder}
-            className="w-full rounded-2xl border border-indigo-200/70 bg-white/70 px-4 py-4 text-sm text-zinc-950 outline-none transition placeholder:text-zinc-400 focus:border-violet-400 focus:bg-white"
+            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-violet-400/60 focus:bg-white/10"
           />
         </div>
         <div>
-          <label className="mb-2 block text-sm text-zinc-600">{f.email}</label>
+          <label className="mb-2 block text-sm text-white/60">{f.email}</label>
           <input
             name="email"
             type="email"
             required
             placeholder={f.emailPlaceholder}
-            className="w-full rounded-2xl border border-indigo-200/70 bg-white/70 px-4 py-4 text-sm text-zinc-950 outline-none transition placeholder:text-zinc-400 focus:border-violet-400 focus:bg-white"
+            className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-violet-400/60 focus:bg-white/10"
           />
         </div>
       </div>
 
       <div className="mt-5">
-        <label className="mb-3 block text-sm text-zinc-600">
+        <label className="mb-3 block text-sm text-white/60">
           {f.projectType}
         </label>
         <div className="flex flex-wrap gap-2">
@@ -120,8 +120,8 @@ export default function ContactForm() {
               className={[
                 "rounded-full border px-4 py-2 text-sm transition",
                 selectedType === type
-                  ? "border-violet-500 bg-violet-100/80 text-violet-700"
-                  : "border-indigo-200/70 bg-white/60 text-zinc-600 hover:border-violet-400 hover:bg-white hover:text-violet-700",
+                  ? "border-violet-400 bg-violet-500/20 text-violet-300"
+                  : "border-white/10 bg-white/5 text-white/60 hover:border-violet-400/50 hover:bg-white/10 hover:text-white",
               ].join(" ")}
             >
               {type}
@@ -131,30 +131,30 @@ export default function ContactForm() {
       </div>
 
       <div className="mt-5">
-        <label className="mb-2 block text-sm text-zinc-600">
+        <label className="mb-2 block text-sm text-white/60">
           {f.projectLabel}
         </label>
         <input
           name="project"
           type="text"
           placeholder={f.projectPlaceholder}
-          className="w-full rounded-2xl border border-indigo-200/70 bg-white/70 px-4 py-4 text-sm text-zinc-950 outline-none transition placeholder:text-zinc-400 focus:border-violet-400 focus:bg-white"
+          className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-violet-400/60 focus:bg-white/10"
         />
       </div>
 
       <div className="mt-5">
-        <label className="mb-2 block text-sm text-zinc-600">{f.message}</label>
+        <label className="mb-2 block text-sm text-white/60">{f.message}</label>
         <textarea
           name="message"
           rows={6}
           required
           placeholder={f.messagePlaceholder}
-          className="w-full resize-none rounded-2xl border border-indigo-200/70 bg-white/70 px-4 py-4 text-sm text-zinc-950 outline-none transition placeholder:text-zinc-400 focus:border-violet-400 focus:bg-white"
+          className="w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-violet-400/60 focus:bg-white/10"
         />
       </div>
 
       {status === "error" && (
-        <div className="mt-4 flex items-center gap-2 rounded-2xl border border-red-200 bg-red-50/60 px-4 py-3 text-sm text-red-700">
+        <div className="mt-4 flex items-center gap-2 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
           <AlertCircle className="h-4 w-4 shrink-0" />
           {errorMsg}
         </div>
@@ -163,7 +163,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-zinc-950 px-6 py-4 text-sm font-semibold text-white transition duration-300 hover:scale-[1.01] hover:bg-violet-600 disabled:cursor-not-allowed disabled:opacity-60"
+        className="group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-4 text-sm font-semibold text-black transition duration-300 hover:scale-[1.01] hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "loading" ? f.sending : f.submit}
         <Send className="h-4 w-4 transition group-hover:translate-x-0.5" />

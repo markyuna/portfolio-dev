@@ -65,17 +65,17 @@ export default function Navbar() {
               whileHover={{ scale: 1.035 }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="relative h-12 w-[178px] overflow-hidden rounded-full md:w-[195px]"
+              className="relative h-12 w-[178px] overflow-hidden rounded-full bg-white/95 px-3 shadow-[0_2px_12px_rgba(0,0,0,0.15)] md:w-[195px]"
             >
               <Image
                 src="/logo-morado.png"
                 alt="Marcos Suarez Logo"
                 fill
                 sizes="210px"
-                className="object-contain brightness-110 contrast-125 drop-shadow-[0_0_18px_rgba(124,58,237,0.35)] transition duration-500 group-hover:brightness-125"
+                className="object-contain contrast-125 transition duration-500"
                 priority
               />
-              <span className="pointer-events-none absolute inset-y-0 -left-12 w-10 rotate-12 bg-white/45 blur-md transition-all duration-700 group-hover:left-[120%]" />
+              <span className="pointer-events-none absolute inset-y-0 -left-12 w-10 rotate-12 bg-violet-400/30 blur-md transition-all duration-700 group-hover:left-[120%]" />
             </motion.div>
           </Link>
 
