@@ -123,7 +123,7 @@ export default function Navbar() {
             </div>
 
             <Link
-              href="/contact"
+              href="/demarrer-un-projet"
               className="group flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black shadow-[0_10px_35px_rgba(255,255,255,0.16)] transition duration-300 hover:scale-[1.035] hover:bg-white/90"
             >
               {t.nav.cta}
@@ -218,7 +218,7 @@ export default function Navbar() {
                 </div>
 
                 <Link
-                  href="/contact"
+                  href="/demarrer-un-projet"
                   onClick={() => setOpen(false)}
                   className="mt-1 flex items-center justify-center gap-2 rounded-full bg-white px-5 py-4 text-sm font-bold text-black shadow-[0_16px_45px_rgba(255,255,255,0.16)]"
                 >
