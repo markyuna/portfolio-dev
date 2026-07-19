@@ -112,24 +112,24 @@ export default function DevisDocument({
             <input
               value={issuer.name}
               onChange={(e) => onIssuerChange({ ...issuer, name: e.target.value })}
-              className="w-full border-none bg-transparent text-sm font-semibold leading-tight outline-none"
+              className="w-full border-none bg-transparent text-sm font-semibold leading-normal outline-none"
             />
             <input
               value={issuer.email}
               onChange={(e) => onIssuerChange({ ...issuer, email: e.target.value })}
-              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-500 outline-none"
+              className="w-full border-none bg-transparent text-xs leading-normal text-zinc-500 outline-none"
             />
             <input
               value={issuer.address}
               onChange={(e) => onIssuerChange({ ...issuer, address: e.target.value })}
               placeholder="Adresse"
-              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-500 outline-none placeholder:text-zinc-300"
+              className="w-full border-none bg-transparent text-xs leading-normal text-zinc-500 outline-none placeholder:text-zinc-300"
             />
             <input
               value={issuer.siret}
               onChange={(e) => onIssuerChange({ ...issuer, siret: e.target.value })}
               placeholder="SIRET"
-              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-500 outline-none placeholder:text-zinc-300"
+              className="w-full border-none bg-transparent text-xs leading-normal text-zinc-500 outline-none placeholder:text-zinc-300"
             />
           </div>
 
@@ -138,7 +138,7 @@ export default function DevisDocument({
             <input
               value={devisNumber}
               onChange={(e) => onDevisNumberChange(e.target.value)}
-              className="w-40 border-none bg-transparent text-right text-xs leading-tight text-zinc-500 outline-none"
+              className="w-40 border-none bg-transparent text-right text-xs leading-normal text-zinc-500 outline-none"
             />
             <p className="text-xs leading-tight text-zinc-500">{formatDateFR(new Date())}</p>
           </div>
@@ -150,24 +150,24 @@ export default function DevisDocument({
             <input
               value={lead.name}
               onChange={(e) => onLeadChange({ ...lead, name: e.target.value })}
-              className="w-full border-none bg-transparent text-xs font-medium leading-tight outline-none"
+              className="w-full border-none bg-transparent text-xs font-medium leading-normal outline-none"
             />
             <input
               value={lead.company}
               onChange={(e) => onLeadChange({ ...lead, company: e.target.value })}
               placeholder="Entreprise"
-              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-600 outline-none placeholder:text-zinc-300"
+              className="w-full border-none bg-transparent text-xs leading-normal text-zinc-600 outline-none placeholder:text-zinc-300"
             />
             <input
               value={lead.email}
               onChange={(e) => onLeadChange({ ...lead, email: e.target.value })}
-              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-600 outline-none"
+              className="w-full border-none bg-transparent text-xs leading-normal text-zinc-600 outline-none"
             />
             <input
               value={lead.phone}
               onChange={(e) => onLeadChange({ ...lead, phone: e.target.value })}
               placeholder="Téléphone"
-              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-600 outline-none placeholder:text-zinc-300"
+              className="w-full border-none bg-transparent text-xs leading-normal text-zinc-600 outline-none placeholder:text-zinc-300"
             />
           </div>
         </div>
