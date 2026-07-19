@@ -1,15 +1,23 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { questionnaireSections, MAINTENANCE_QUESTION_ID } from "@/lib/questionnaire.config";
-import { computePricing, type PriceOverrides } from "@/lib/pricing";
+import { computePricing, CUSTOM_LINE_QUESTION_ID } from "@/lib/pricing";
 import { formatPriceFR } from "@/lib/format";
 import { getNextDevisNumber } from "@/lib/devis-sequence";
 import { generateClaudePrompt } from "@/lib/claude-prompt";
+import { generateCadrageMarkdown } from "@/lib/cadrage-prompt";
+import { loadCadrageSession } from "@/lib/cadrage-storage";
+import { isTimelineUnrealistic } from "@/lib/risk-alerts";
+import {
+  saveAdminSession,
+  useAdminSessionBaseline,
+  type AdminSession,
+} from "@/lib/admin-session-storage";
 import type {
   BriefPayload,
+  CustomLineItem,
   LeadInfo,
-  QuestionnaireAnswers,
   TextQuestion,
 } from "@/lib/questionnaire.types";
 import QuestionSingleChoice from "@/components/questionnaire/QuestionSingleChoice";
@@ -17,18 +25,35 @@ import QuestionMultipleChoice from "@/components/questionnaire/QuestionMultipleC
 import QuestionText from "@/components/questionnaire/QuestionText";
 import DevisDocument from "@/components/admin/DevisDocument";
 import ClaudePromptOutput from "@/components/admin/ClaudePromptOutput";
+import CustomLineItemsEditor from "@/components/admin/CustomLineItemsEditor";
+import { AlertTriangle } from "lucide-react";
 
 const EMPTY_LEAD: LeadInfo = { name: "", company: "", email: "", phone: "", consent: true };
+
+const EMPTY_SESSION: AdminSession = {
+  answers: {},
+  lead: EMPTY_LEAD,
+  overrides: {},
+  customLines: [],
+};
 
 const fieldClasses =
   "w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-violet-400/60 focus:bg-white/10";
 
 export default function AdminBriefDevisWorkspace() {
-  const [answers, setAnswers] = useState<QuestionnaireAnswers>({});
-  const [lead, setLead] = useState<LeadInfo>(EMPTY_LEAD);
+  // `baseline` is the last saved session, read once (SSR-safe, same pattern
+  // as the public questionnaire's draft). `edits` is null until the admin
+  // makes a first change, after which it fully supersedes the baseline —
+  // every setter below derives the next `edits` from the current effective
+  // session, so there's no risk of stale baseline fields leaking back in
+  // after an import replaces the working set.
+  const baseline = useAdminSessionBaseline();
+  const [edits, setEdits] = useState<AdminSession | null>(null);
+  const session = edits ?? baseline ?? EMPTY_SESSION;
+  const { answers, lead, overrides, customLines } = session;
+
   const [jsonInput, setJsonInput] = useState("");
   const [importError, setImportError] = useState<string | null>(null);
-  const [overrides, setOverrides] = useState<PriceOverrides>({});
   const [devisNumber, setDevisNumber] = useState("");
   const [issuer, setIssuer] = useState({
     name: "Marcos Suarez",
@@ -39,14 +64,45 @@ export default function AdminBriefDevisWorkspace() {
   const [activeTab, setActiveTab] = useState<"devis" | "prompt">("devis");
   const [prompt, setPrompt] = useState("");
 
-  const pricing = useMemo(() => computePricing(answers, overrides), [answers, overrides]);
+  useEffect(() => {
+    if (edits) saveAdminSession(edits);
+  }, [edits]);
+
+  const pricing = useMemo(
+    () => computePricing(answers, overrides, customLines),
+    [answers, overrides, customLines],
+  );
+
+  function updateSession(patch: Partial<AdminSession>) {
+    setEdits({ ...session, ...patch });
+  }
 
   function setAnswer(questionId: string, value: string | string[]) {
-    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+    updateSession({ answers: { ...answers, [questionId]: value } });
+  }
+
+  function setLead(next: LeadInfo) {
+    updateSession({ lead: next });
   }
 
   function setOverride(questionId: string, optionId: string, price: number) {
-    setOverrides((prev) => ({ ...prev, [`${questionId}:${optionId}`]: price }));
+    updateSession({ overrides: { ...overrides, [`${questionId}:${optionId}`]: price } });
+  }
+
+  function addCustomLine() {
+    updateSession({
+      customLines: [...customLines, { id: crypto.randomUUID(), label: "", price: 0 }],
+    });
+  }
+
+  function updateCustomLine(id: string, patch: Partial<CustomLineItem>) {
+    updateSession({
+      customLines: customLines.map((line) => (line.id === id ? { ...line, ...patch } : line)),
+    });
+  }
+
+  function removeCustomLine(id: string) {
+    updateSession({ customLines: customLines.filter((line) => line.id !== id) });
   }
 
   function handleImport() {
@@ -56,8 +112,10 @@ export default function AdminBriefDevisWorkspace() {
       if (!parsed.answers || !parsed.lead) {
         throw new Error("Structure JSON inattendue (answers / lead manquant).");
       }
-      setAnswers(parsed.answers);
-      setLead({ ...EMPTY_LEAD, ...parsed.lead });
+      updateSession({
+        answers: parsed.answers,
+        lead: { ...EMPTY_LEAD, ...parsed.lead },
+      });
     } catch (error) {
       setImportError(
         error instanceof Error ? error.message : "JSON invalide.",
@@ -71,9 +129,12 @@ export default function AdminBriefDevisWorkspace() {
   }
 
   function handleGeneratePrompt() {
-    setPrompt(generateClaudePrompt(answers, lead, pricing));
+    const cadrageMarkdown = generateCadrageMarkdown(answers, loadCadrageSession() ?? {});
+    setPrompt(generateClaudePrompt(answers, lead, pricing, customLines, cadrageMarkdown));
     setActiveTab("prompt");
   }
+
+  const timelineRisk = isTimelineUnrealistic(answers);
 
   const maintenanceAnswer = answers[MAINTENANCE_QUESTION_ID];
   const maintenanceOption = questionnaireSections
@@ -145,47 +206,84 @@ export default function AdminBriefDevisWorkspace() {
           </div>
         </section>
 
-        {questionnaireSections.map((section) => (
-          <section
-            key={section.id}
-            className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl"
-          >
-            <h2 className="text-lg font-semibold text-white">{section.title}</h2>
-            <div className="mt-6 flex flex-col gap-8">
-              {section.questions.map((question) => {
-                if (question.kind === "single") {
-                  return (
-                    <QuestionSingleChoice
-                      key={question.id}
-                      question={question}
-                      value={answers[question.id] as string | undefined}
-                      onChange={(id) => setAnswer(question.id, id)}
-                      showPrices
-                    />
-                  );
-                }
-                if (question.kind === "multiple") {
-                  return (
-                    <QuestionMultipleChoice
-                      key={question.id}
-                      question={question}
-                      value={answers[question.id] as string[] | undefined}
-                      onChange={(ids) => setAnswer(question.id, ids)}
-                      showPrices
-                    />
-                  );
-                }
-                return (
-                  <QuestionText
-                    key={question.id}
-                    question={question as TextQuestion}
-                    value={answers[question.id] as string | undefined}
-                    onChange={(value) => setAnswer(question.id, value)}
-                  />
-                );
-              })}
-            </div>
+        {timelineRisk && (
+          <section className="flex items-center gap-3 rounded-[2rem] border border-amber-400/30 bg-amber-500/10 p-6 backdrop-blur-xl">
+            <AlertTriangle className="size-5 shrink-0 text-amber-300" />
+            <p className="text-sm leading-6 text-amber-100">
+              Délai probablement non réaliste — à recadrer avant d&apos;envoyer le devis.
+            </p>
           </section>
+        )}
+
+        {answers["autre-besoin"] && (
+          <section className="rounded-[2rem] border border-amber-400/30 bg-amber-500/10 p-6 backdrop-blur-xl">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-amber-300">
+              Besoin complémentaire exprimé par le client
+            </h2>
+            <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-white">
+              {answers["autre-besoin"] as string}
+            </p>
+          </section>
+        )}
+
+        {questionnaireSections.map((section) => (
+          <div key={section.id} className="contents">
+            <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+              <h2 className="text-lg font-semibold text-white">{section.title}</h2>
+              <div className="mt-6 flex flex-col gap-8">
+                {section.questions.map((question) => {
+                  if (question.kind === "single") {
+                    return (
+                      <QuestionSingleChoice
+                        key={question.id}
+                        question={question}
+                        value={answers[question.id] as string | undefined}
+                        onChange={(id) => setAnswer(question.id, id)}
+                        showPrices
+                      />
+                    );
+                  }
+                  if (question.kind === "multiple") {
+                    return (
+                      <QuestionMultipleChoice
+                        key={question.id}
+                        question={question}
+                        value={answers[question.id] as string[] | undefined}
+                        onChange={(ids) => setAnswer(question.id, ids)}
+                        showPrices
+                      />
+                    );
+                  }
+                  return (
+                    <QuestionText
+                      key={question.id}
+                      question={question as TextQuestion}
+                      value={answers[question.id] as string | undefined}
+                      onChange={(value) => setAnswer(question.id, value)}
+                    />
+                  );
+                })}
+              </div>
+            </section>
+
+            {section.id === "fonctionnalites" && (
+              <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+                <h2 className="text-lg font-semibold text-white">Prestations personnalisées</h2>
+                <p className="mt-2 text-sm text-white/50">
+                  Ajoutez des lignes de devis hors questionnaire (ex : besoin exprimé par le client ci-dessus).
+                </p>
+
+                <div className="mt-4">
+                  <CustomLineItemsEditor
+                    customLines={customLines}
+                    onAdd={addCustomLine}
+                    onUpdate={updateCustomLine}
+                    onRemove={removeCustomLine}
+                  />
+                </div>
+              </section>
+            )}
+          </div>
         ))}
 
         <section className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
@@ -195,7 +293,7 @@ export default function AdminBriefDevisWorkspace() {
           </p>
           <div className="mt-4 flex flex-col divide-y divide-white/10">
             {pricing.lines
-              .filter((l) => !l.isSurcharge)
+              .filter((l) => !l.isSurcharge && l.questionId !== CUSTOM_LINE_QUESTION_ID)
               .map((line) => (
                 <div
                   key={`${line.questionId}:${line.optionId}`}
@@ -276,7 +374,16 @@ export default function AdminBriefDevisWorkspace() {
           />
         ) : (
           <ClaudePromptOutput
-            prompt={prompt || generateClaudePrompt(answers, lead, pricing)}
+            prompt={
+              prompt ||
+              generateClaudePrompt(
+                answers,
+                lead,
+                pricing,
+                customLines,
+                generateCadrageMarkdown(answers, loadCadrageSession() ?? {}),
+              )
+            }
             onPromptChange={setPrompt}
             onRegenerate={handleGeneratePrompt}
           />

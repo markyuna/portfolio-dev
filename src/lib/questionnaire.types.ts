@@ -58,6 +58,13 @@ export interface BriefPayload {
   submittedAt: string;
 }
 
+/** Admin-only ad hoc line item not tied to any questionnaire option (e.g. a bespoke feature). */
+export interface CustomLineItem {
+  id: string;
+  label: string;
+  price: number;
+}
+
 export interface PricingBreakdownLine {
   questionId: string;
   questionLabel: string;

@@ -1,7 +1,12 @@
 import { questionnaireSections } from "@/lib/questionnaire.config";
 import { formatPriceFR } from "@/lib/format";
 import { findOption } from "@/lib/questionnaire-lookup";
-import type { PricingResult, QuestionnaireAnswers, LeadInfo } from "@/lib/questionnaire.types";
+import type {
+  CustomLineItem,
+  LeadInfo,
+  PricingResult,
+  QuestionnaireAnswers,
+} from "@/lib/questionnaire.types";
 
 const STACK_SUGGESTIONS: Record<string, string> = {
   "type-vitrine": "Next.js (App Router) + Tailwind CSS, déploiement Vercel.",
@@ -32,6 +37,8 @@ export function generateClaudePrompt(
   answers: QuestionnaireAnswers,
   lead: LeadInfo,
   pricing: PricingResult,
+  customLines: CustomLineItem[] = [],
+  cadrageMarkdown?: string,
 ): string {
   const typeSite = answers["type-site"];
   const typeSiteId = Array.isArray(typeSite) ? typeSite[0] : typeSite;
@@ -45,8 +52,10 @@ export function generateClaudePrompt(
   const design = getAnswerLabels(answers, "design")[0] ?? "—";
   const pages = getAnswerLabels(answers, "pages")[0] ?? "—";
   const fonctionnalites = getAnswerLabels(answers, "fonctionnalites");
+  const autreBesoin = getAnswerLabels(answers, "autre-besoin")[0];
   const delai = getAnswerLabels(answers, "delai")[0] ?? "Flexible";
   const notes = getAnswerLabels(answers, "notes")[0];
+  const customLineItems = customLines.filter((l) => l.label.trim());
 
   const lines: string[] = [
     `# Nouveau projet — ${lead.name}${lead.company ? ` (${lead.company})` : ""}`,
@@ -67,6 +76,8 @@ export function generateClaudePrompt(
     "",
     "## Fonctionnalités demandées",
     ...(fonctionnalites.length ? fonctionnalites.map((f) => `- ${f}`) : ["- Aucune fonctionnalité spécifique mentionnée."]),
+    ...customLineItems.map((l) => `- ${l.label} (prestation personnalisée, ${formatPriceFR(l.price)} HT)`),
+    ...(autreBesoin ? [`- Autre besoin exprimé par le client : ${autreBesoin}`] : []),
     "",
     "## Contenu à créer",
     ...(contenus.length ? contenus.map((c) => `- ${c}`) : ["- Contenu fourni par le client."]),
@@ -87,5 +98,6 @@ export function generateClaudePrompt(
     "5. Prévoir un point de cadrage avec le client avant de démarrer si des zones restent floues.",
   ];
 
-  return lines.join("\n");
+  const body = lines.join("\n");
+  return cadrageMarkdown ? `${body}\n\n${cadrageMarkdown}` : body;
 }

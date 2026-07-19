@@ -3,15 +3,11 @@ import AdminBriefDevisWorkspace from "@/components/admin/AdminBriefDevisWorkspac
 
 export const metadata: Metadata = {
   title: "Brief & devis — Admin",
-  robots: {
-    index: false,
-    follow: false,
-  },
 };
 
 export default function AdminBriefDevisPage() {
   return (
-    <main className="min-h-screen bg-[#070707] px-6 py-16 text-white">
+    <main className="px-6 py-16">
       <div className="mx-auto max-w-6xl">
         <h1 className="text-2xl font-semibold tracking-[-0.03em] text-white">
           Brief & devis

@@ -1,6 +1,7 @@
 import { ESTIMATE_RANGE_PERCENT, questionnaireSections } from "@/lib/questionnaire.config";
 import { findOption } from "@/lib/questionnaire-lookup";
 import type {
+  CustomLineItem,
   PricingBreakdownLine,
   PricingResult,
   QuestionnaireAnswers,
@@ -8,6 +9,9 @@ import type {
 
 /** Overrides keyed as `${questionId}:${optionId}` -> price, used by the admin to adjust line items. */
 export type PriceOverrides = Record<string, number>;
+
+/** questionId used for admin-added ad hoc prestations, so they can be filtered out of the questionnaire-driven price editor. */
+export const CUSTOM_LINE_QUESTION_ID = "custom";
 
 function selectedOptionIds(value: string | string[] | undefined): string[] {
   if (!value) return [];
@@ -17,6 +21,7 @@ function selectedOptionIds(value: string | string[] | undefined): string[] {
 export function computePricing(
   answers: QuestionnaireAnswers,
   overrides: PriceOverrides = {},
+  customLines: CustomLineItem[] = [],
 ): PricingResult {
   const lines: PricingBreakdownLine[] = [];
   let subtotal = 0;
@@ -57,6 +62,20 @@ export function computePricing(
         }
       }
     }
+  }
+
+  for (const line of customLines) {
+    if (!line.label.trim()) continue;
+
+    lines.push({
+      questionId: CUSTOM_LINE_QUESTION_ID,
+      questionLabel: "Prestation personnalisée",
+      optionId: line.id,
+      optionLabel: line.label,
+      price: line.price,
+    });
+
+    subtotal += line.price;
   }
 
   for (const section of questionnaireSections) {
