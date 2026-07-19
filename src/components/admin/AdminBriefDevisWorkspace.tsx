@@ -58,8 +58,8 @@ export default function AdminBriefDevisWorkspace() {
   const [issuer, setIssuer] = useState({
     name: "Marcos Suarez",
     email: "marcossuarezr88@gmail.com",
-    address: "",
-    siret: "",
+    address: "2 rue Pierre Curie, 94270 Le Kremlin-Bicêtre",
+    siret: "897 513 065 00010",
   });
   const [activeTab, setActiveTab] = useState<"devis" | "prompt">("devis");
   const [prompt, setPrompt] = useState("");

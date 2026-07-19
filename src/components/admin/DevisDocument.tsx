@@ -1,6 +1,7 @@
 "use client";
 
-import { Printer } from "lucide-react";
+import { useRef, useState } from "react";
+import { Download, Printer } from "lucide-react";
 import { formatDateFR, formatPriceFR } from "@/lib/format";
 import type { LeadInfo, PricingResult } from "@/lib/questionnaire.types";
 
@@ -40,104 +41,156 @@ export default function DevisDocument({
   // informational (audience, indicative client budget, "included" base tiers).
   const mainLines = pricing.lines.filter((l) => !l.excludedFromTotal && l.price > 0);
 
+  const printRef = useRef<HTMLDivElement>(null);
+  const [downloading, setDownloading] = useState(false);
+
+  async function handleDownload() {
+    if (!printRef.current) return;
+    setDownloading(true);
+    try {
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas-pro"),
+        import("jspdf"),
+      ]);
+
+      const canvas = await html2canvas(printRef.current, { scale: 2, backgroundColor: "#ffffff" });
+      const imgData = canvas.toDataURL("image/jpeg", 0.85);
+
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      const safeName = (lead.name || "client").trim().replace(/[^\p{L}\p{N}]+/gu, "-");
+      pdf.save(`Devis-${devisNumber || "brouillon"}-${safeName}.pdf`);
+    } finally {
+      setDownloading(false);
+    }
+  }
+
   return (
     <div>
-      <div className="no-print mb-4 flex justify-end">
+      <div className="no-print mb-4 flex justify-end gap-3">
         <button
           type="button"
           onClick={() => window.print()}
-          className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90"
+          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10"
         >
           <Printer className="h-4 w-4" />
-          Imprimer / PDF
+          Imprimer
+        </button>
+        <button
+          type="button"
+          onClick={handleDownload}
+          disabled={downloading}
+          className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          <Download className="h-4 w-4" />
+          {downloading ? "Génération..." : "Télécharger le devis (PDF)"}
         </button>
       </div>
 
-      <div className="devis-print rounded-2xl border border-zinc-300 bg-white p-10 text-zinc-900 shadow-xl print:rounded-none print:border-none print:shadow-none">
-        <div className="flex items-start justify-between border-b border-zinc-200 pb-6">
+      <div
+        ref={printRef}
+        className="devis-print rounded-2xl border border-zinc-300 bg-white p-6 text-zinc-900 shadow-xl print:rounded-none print:border-none print:shadow-none"
+      >
+        <div className="flex items-start justify-between border-b border-zinc-200 pb-3">
           <div>
             <input
               value={issuer.name}
               onChange={(e) => onIssuerChange({ ...issuer, name: e.target.value })}
-              className="w-full border-none bg-transparent text-lg font-semibold outline-none"
+              className="w-full border-none bg-transparent text-sm font-semibold leading-tight outline-none"
             />
             <input
               value={issuer.email}
               onChange={(e) => onIssuerChange({ ...issuer, email: e.target.value })}
-              className="mt-1 w-full border-none bg-transparent text-sm text-zinc-500 outline-none"
+              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-500 outline-none"
             />
             <input
               value={issuer.address}
               onChange={(e) => onIssuerChange({ ...issuer, address: e.target.value })}
               placeholder="Adresse"
-              className="mt-1 w-full border-none bg-transparent text-sm text-zinc-500 outline-none placeholder:text-zinc-300"
+              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-500 outline-none placeholder:text-zinc-300"
             />
             <input
               value={issuer.siret}
               onChange={(e) => onIssuerChange({ ...issuer, siret: e.target.value })}
               placeholder="SIRET"
-              className="mt-1 w-full border-none bg-transparent text-sm text-zinc-500 outline-none placeholder:text-zinc-300"
+              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-500 outline-none placeholder:text-zinc-300"
             />
           </div>
 
           <div className="text-right">
-            <p className="text-2xl font-bold tracking-tight">DEVIS</p>
+            <p className="text-lg font-bold leading-tight tracking-tight">DEVIS</p>
             <input
               value={devisNumber}
               onChange={(e) => onDevisNumberChange(e.target.value)}
-              className="mt-1 w-40 border-none bg-transparent text-right text-sm text-zinc-500 outline-none"
+              className="w-40 border-none bg-transparent text-right text-xs leading-tight text-zinc-500 outline-none"
             />
-            <p className="mt-1 text-sm text-zinc-500">{formatDateFR(new Date())}</p>
+            <p className="text-xs leading-tight text-zinc-500">{formatDateFR(new Date())}</p>
           </div>
         </div>
 
-        <div className="mt-6 grid grid-cols-2 gap-6">
+        <div className="mt-3 grid grid-cols-2 gap-6">
           <div>
-            <p className="text-xs uppercase tracking-widest text-zinc-400">Client</p>
+            <p className="text-[10px] uppercase tracking-widest text-zinc-400">Client</p>
             <input
               value={lead.name}
               onChange={(e) => onLeadChange({ ...lead, name: e.target.value })}
-              className="mt-1 w-full border-none bg-transparent text-sm font-medium outline-none"
+              className="w-full border-none bg-transparent text-xs font-medium leading-tight outline-none"
             />
             <input
               value={lead.company}
               onChange={(e) => onLeadChange({ ...lead, company: e.target.value })}
               placeholder="Entreprise"
-              className="mt-1 w-full border-none bg-transparent text-sm text-zinc-600 outline-none placeholder:text-zinc-300"
+              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-600 outline-none placeholder:text-zinc-300"
             />
             <input
               value={lead.email}
               onChange={(e) => onLeadChange({ ...lead, email: e.target.value })}
-              className="mt-1 w-full border-none bg-transparent text-sm text-zinc-600 outline-none"
+              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-600 outline-none"
             />
             <input
               value={lead.phone}
               onChange={(e) => onLeadChange({ ...lead, phone: e.target.value })}
               placeholder="Téléphone"
-              className="mt-1 w-full border-none bg-transparent text-sm text-zinc-600 outline-none placeholder:text-zinc-300"
+              className="w-full border-none bg-transparent text-xs leading-tight text-zinc-600 outline-none placeholder:text-zinc-300"
             />
           </div>
         </div>
 
-        <table className="mt-8 w-full border-collapse text-sm">
+        <table className="mt-4 w-full border-collapse text-xs">
           <thead>
-            <tr className="border-b border-zinc-300 text-left text-xs uppercase tracking-widest text-zinc-400">
-              <th className="py-2">Prestation</th>
-              <th className="py-2 text-right">Montant HT</th>
+            <tr className="border-b border-zinc-300 text-left text-[10px] uppercase tracking-widest text-zinc-400">
+              <th className="py-1">Prestation</th>
+              <th className="py-1 text-right">Montant HT</th>
             </tr>
           </thead>
           <tbody>
             {mainLines.map((line, index) => (
               <tr key={`${line.optionId}-${index}`} className="border-b border-zinc-100">
-                <td className="py-3 pr-4">{line.optionLabel}</td>
-                <td className="py-3 text-right tabular-nums">{formatPriceFR(line.price)}</td>
+                <td className="py-1 pr-4">{line.optionLabel}</td>
+                <td className="py-1 text-right tabular-nums">{formatPriceFR(line.price)}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        <div className="mt-6 flex justify-end">
-          <div className="w-64 space-y-2 text-sm">
+        <div className="mt-3 flex justify-end">
+          <div className="w-56 space-y-1 text-xs">
             <div className="flex justify-between text-zinc-500">
               <span>Total HT</span>
               <span className="tabular-nums">{formatPriceFR(pricing.total)}</span>
@@ -146,7 +199,7 @@ export default function DevisDocument({
               <span>TVA (20 %)</span>
               <span className="tabular-nums">{formatPriceFR(tva)}</span>
             </div>
-            <div className="flex justify-between border-t border-zinc-300 pt-2 text-base font-semibold text-zinc-900">
+            <div className="flex justify-between border-t border-zinc-300 pt-1 text-sm font-semibold text-zinc-900">
               <span>Total TTC</span>
               <span className="tabular-nums">{formatPriceFR(totalTTC)}</span>
             </div>
@@ -154,10 +207,10 @@ export default function DevisDocument({
         </div>
 
         {maintenanceNote && (
-          <p className="mt-6 text-xs text-zinc-500">{maintenanceNote}</p>
+          <p className="mt-3 text-[10px] leading-tight text-zinc-500">{maintenanceNote}</p>
         )}
 
-        <div className="mt-10 space-y-1 border-t border-zinc-200 pt-6 text-xs leading-5 text-zinc-400">
+        <div className="mt-4 space-y-0.5 border-t border-zinc-200 pt-3 text-[10px] leading-tight text-zinc-400">
           <p>Devis valable 30 jours à compter de sa date d&apos;émission.</p>
           <p>Acompte de 30 % à la commande, solde à la livraison.</p>
           <p>Estimation à affiner après une phase de cadrage détaillée avec le client.</p>
