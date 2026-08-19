@@ -1,5 +1,7 @@
 import { Locale } from "@/lib/translations";
 
+export type ProjectStatus = "En ligne" | "En cours";
+
 export type Project = {
   title: string;
   subtitle: Record<Locale, string>;
@@ -8,6 +10,7 @@ export type Project = {
   image: string;
   tags: string[];
   url: string;
+  status: ProjectStatus;
   metrics: Record<Locale, string[]>;
 };
 
@@ -23,6 +26,7 @@ export const projects: Project[] = [
     image: "/images/projects/tempel-outdoor.png",
     tags: ["Next.js", "Tailwind", "Framer Motion", "E-commerce"],
     url: "https://tempel-outdoor.vercel.app",
+    status: "En cours",
     metrics: {
       en: ["Full e-commerce catalog", "Bilingual FR / EN", "Premium brand direction"],
       fr: ["Catalogue e-commerce complet", "Bilingue FR / EN", "Direction de marque premium"],
@@ -39,6 +43,7 @@ export const projects: Project[] = [
     image: "/images/projects/koalit.png",
     tags: ["Next.js", "Tailwind", "E-commerce", "SEO"],
     url: "https://koalit-refonte.vercel.app",
+    status: "En cours",
     metrics: {
       en: ["Sleep diagnostic quiz", "Full shop catalog", "SEO-optimized content"],
       fr: ["Quiz diagnostic sommeil", "Catalogue boutique complet", "Contenu optimise SEO"],
@@ -55,6 +60,7 @@ export const projects: Project[] = [
     image: "/images/projects/france-courtier.png",
     tags: ["Next.js", "Tailwind", "Framer Motion", "Supabase"],
     url: "https://francecourtier-site.vercel.app",
+    status: "En ligne",
     metrics: {
       en: ["Lead generation flow", "Premium UI system", "Admin-ready backend"],
       fr: ["Parcours de generation de leads", "Systeme UI premium", "Backend admin-ready"],
@@ -71,6 +77,7 @@ export const projects: Project[] = [
     image: "/images/projects/dnd-conseil.png",
     tags: ["Next.js", "Tailwind", "Framer Motion", "Supabase"],
     url: "https://dnd-conseils.vercel.app/",
+    status: "En ligne",
     metrics: {
       en: ["Quote request flow", "Premium service positioning", "Admin lead management"],
       fr: ["Parcours de demande de devis", "Positionnement service premium", "Gestion admin des leads"],
@@ -87,6 +94,7 @@ export const projects: Project[] = [
     image: "/images/projects/marcos-papermache.png",
     tags: ["Next.js", "AI", "Supabase", "Vercel"],
     url: "https://www.marcospapermache.com",
+    status: "En ligne",
     metrics: {
       en: ["AI creation journey", "Multilingual content", "Premium art direction"],
       fr: ["Parcours de creation IA", "Contenu multilingue", "Direction artistique premium"],
@@ -103,6 +111,7 @@ export const projects: Project[] = [
     image: "/images/projects/quizmify.png",
     tags: ["React", "Next.js", "UI Design"],
     url: "https://quizmify-two.vercel.app/",
+    status: "En ligne",
     metrics: {
       en: ["Interactive UI", "Clean game logic", "Responsive experience"],
       fr: ["UI interactive", "Logique de jeu propre", "Experience responsive"],

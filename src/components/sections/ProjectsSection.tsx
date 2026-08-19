@@ -48,81 +48,100 @@ export default function ProjectsSection() {
 
         {/* Compact grid */}
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.title}
-              initial={{ opacity: 0, y: 40, filter: "blur(14px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{
-                duration: 0.85,
-                delay: (index % 3) * 0.06,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="group relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-white/[0.03] transition duration-500 hover:-translate-y-1 hover:border-violet-500/25 hover:bg-white/[0.06]"
-            >
-              {/* Image */}
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={`${project.title} preview`}
-                  fill
-                  className="object-cover transition duration-700 group-hover:scale-[1.04]"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-transparent" />
+          {projects.map((project, index) => {
+            const isLive = project.status === "En ligne";
+            const statusLabel = isLive ? p.statusLive : p.statusInProgress;
 
-                {/* Live badge */}
-                <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/80 backdrop-blur">
-                  {p.liveBadge}
-                </div>
+            return (
+              <motion.article
+                key={project.title}
+                initial={{ opacity: 0, y: 40, filter: "blur(14px)" }}
+                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{
+                  duration: 0.85,
+                  delay: (index % 3) * 0.06,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="group relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-white/[0.03] transition duration-500 hover:-translate-y-1 hover:border-violet-500/25 hover:bg-white/[0.06]"
+              >
+                {/* Image */}
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} preview`}
+                    fill
+                    className="object-cover transition duration-700 group-hover:scale-[1.04]"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-[#0a0a0a]/20 to-transparent" />
 
-                {/* Number */}
-                <div className="absolute right-4 top-4 font-mono text-xs text-white/30">
-                  {String(index + 1).padStart(2, "0")}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-5">
-                <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-violet-400">
-                  {project.category[locale]}
-                </p>
-                <h3 className="text-lg font-semibold tracking-[-0.04em] text-white">
-                  {project.title}
-                </h3>
-                <p className="mt-1 text-sm text-white/45">
-                  {project.subtitle[locale]}
-                </p>
-
-                <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/55">
-                  {project.description[locale]}
-                </p>
-
-                {/* Tags */}
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {project.tags.slice(0, 3).map((tag) => (
+                  {/* Status badge */}
+                  <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full border border-white/15 bg-black/50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/80 backdrop-blur">
                     <span
-                      key={tag}
-                      className="rounded-full border border-white/[0.08] bg-white/5 px-2.5 py-1 text-xs text-white/45"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        isLive ? "bg-emerald-400" : "bg-amber-400"
+                      }`}
+                    />
+                    {statusLabel}
+                  </div>
+
+                  {/* Number */}
+                  <div className="absolute right-4 top-4 font-mono text-xs text-white/30">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
                 </div>
 
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-white/80 transition duration-300 group-hover:text-violet-400"
-                >
-                  {p.cta}
-                  <ArrowUpRight className="h-3.5 w-3.5 transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </a>
-              </div>
-            </motion.article>
-          ))}
+                {/* Content */}
+                <div className="p-5">
+                  <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-violet-400">
+                    {project.category[locale]}
+                  </p>
+                  <h3 className="text-lg font-semibold tracking-[-0.04em] text-white">
+                    {project.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-white/45">
+                    {project.subtitle[locale]}
+                  </p>
+
+                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/55">
+                    {project.description[locale]}
+                  </p>
+
+                  {/* Tags */}
+                  <div className="mt-4 flex flex-wrap gap-1.5">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-white/[0.08] bg-white/5 px-2.5 py-1 text-xs text-white/45"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {isLive || project.url ? (
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-semibold text-white/80 transition duration-300 group-hover:text-violet-400"
+                    >
+                      {isLive ? p.cta : p.ctaPreview}
+                      <ArrowUpRight className="h-3.5 w-3.5 transition duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </a>
+                  ) : (
+                    <span
+                      aria-disabled="true"
+                      className="mt-4 inline-flex w-fit cursor-not-allowed items-center gap-1.5 text-sm font-semibold text-white/30"
+                    >
+                      {p.ctaComingSoon}
+                    </span>
+                  )}
+                </div>
+              </motion.article>
+            );
+          })}
         </div>
       </div>
     </section>

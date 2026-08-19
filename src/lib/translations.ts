@@ -71,8 +71,11 @@ export const translations = {
       h2highlight: "cinematic depth.",
       description:
         "Premium interfaces, immersive motion, clean engineering and business-focused experiences crafted to feel sharp, modern and memorable.",
-      liveBadge: "Live project",
+      statusLive: "Live",
+      statusInProgress: "In progress",
       cta: "View project",
+      ctaPreview: "Preview",
+      ctaComingSoon: "Coming soon",
     },
     contactPage: {
       badge: "Contact",
@@ -223,8 +226,11 @@ export const translations = {
       h2highlight: "une profondeur cinématique.",
       description:
         "Interfaces premium, motion immersif, ingénierie propre et expériences orientées business — conçus pour être nets, modernes et mémorables.",
-      liveBadge: "Projet en ligne",
+      statusLive: "En ligne",
+      statusInProgress: "En cours",
       cta: "Voir le projet",
+      ctaPreview: "Aperçu",
+      ctaComingSoon: "Bientôt disponible",
     },
     contactPage: {
       badge: "Contact",
