@@ -76,7 +76,7 @@ export const projects: Project[] = [
     },
     image: "/images/mockups/dnd-conseils.webp",
     tags: ["Next.js", "Tailwind", "Framer Motion", "Supabase"],
-    url: "https://dnd-conseils.vercel.app/",
+    url: "https://www.dndconseils.fr",
     status: "En ligne",
     metrics: {
       en: ["Quote request flow", "Premium service positioning", "Admin lead management"],
@@ -110,7 +110,7 @@ export const projects: Project[] = [
     },
     image: "/images/mockups/quizmify.webp",
     tags: ["React", "Next.js", "UI Design"],
-    url: "https://quizmify-two.vercel.app/",
+    url: "https://www.quizmify.com",
     status: "En ligne",
     metrics: {
       en: ["Interactive UI", "Clean game logic", "Responsive experience"],
